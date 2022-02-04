@@ -3,14 +3,20 @@ package mp3.uf5.dam.tutorialfxml;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mp3.uf5.dam.tutorialfxml.control.PersonEditDialogController;
 import mp3.uf5.dam.tutorialfxml.control.PersonOverviewController;
+import mp3.uf5.dam.tutorialfxml.model.Graph;
 import mp3.uf5.dam.tutorialfxml.model.Person;
 import java.io.File;
 import java.io.IOException;
@@ -32,15 +38,12 @@ import java.io.InputStream;
 public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
-
-
     private ObservableList<Person> personData = FXCollections.observableArrayList();
+    private Graph graph;
 
     public MainApp() {
         // Add some sample data
-
         readXML();
-
     }
 
     /**
@@ -59,8 +62,6 @@ public class MainApp extends Application {
         initRootLayout();
 
         showPersonOverview();
-
-
 
     }
 
@@ -99,6 +100,8 @@ public class MainApp extends Application {
             // Give the controller access to the main app.
             PersonOverviewController controller = loader.getController();
             controller.setMainApp(this);
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -226,7 +229,7 @@ String hola = "clas";
                     // get text
                     String firstname = element.getElementsByTagName("TITOL").item(0).getTextContent();
                     String lastname = element.getElementsByTagName("CARTELL").item(0).getTextContent();
-                    String nickname = element.getElementsByTagName("SINOPSI").item(0).getTextContent();
+                    String street = element.getElementsByTagName("IDIOMA_x0020_ORIGINAL").item(0).getTextContent();
 
                     //NodeList salaryNodeList = element.getElementsByTagName("salary");
                     //String salary = salaryNodeList.item(0).getTextContent();
@@ -238,12 +241,14 @@ String hola = "clas";
                    // System.out.println("Staff Id : " + id);
                     System.out.println("First Name : " + firstname);
                     System.out.println("Last Name : " + lastname);
-                    System.out.println("Nick Name : " + nickname);
+                    System.out.println("Idioma: " + street);
                     String imagen = "http://gencat.cat/llengua/cinema/"+ lastname;
+
                     personData.add(new Person(firstname, imagen));
                     //System.out.printf("Salary [Currency] : %,.2f [%s]%n%n", Float.parseFloat(salary), currency);
-
                 }
+                graph = new Graph("a",2);
+
             }
 
         } catch (ParserConfigurationException | SAXException | IOException e) {

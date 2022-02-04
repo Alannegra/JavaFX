@@ -25,6 +25,10 @@ public class PersonEditDialogController {
     private TextField cityField;
     @FXML
     private TextField birthdayField;
+    @FXML
+    private ImageView image;
+
+
 
 
     private Stage dialogStage;
@@ -63,6 +67,7 @@ public class PersonEditDialogController {
         cityField.setText(person.getCity());
         birthdayField.setText(DateUtil.format(person.getBirthday()));
         birthdayField.setPromptText("dd.mm.yyyy");
+        image.setImage(new Image(lastNameField.getText()));
 
     }
 
